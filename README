@@ -1,0 +1,58 @@
+Homework 4: Arith
+
+Authors:
+    Ronit Sinha (rsinha01)
+    Helena Benatar (hbenat01)
+
+Correctly Implemented:
+    - bitpack.c, implementing the Bitpack interface
+    - 40image, separated into several .c and .h files
+        - compress40.c
+        - readwrite.c
+        - color_conversion.c
+        - dct.c
+        - codewords.c
+    
+Architecture:
+
+    Compresion pipeline:
+        compress40->readwrite->color_conversion->dct->codewords->readwrite
+
+    Decompresion pipeline:
+        compress40->readwrite->codewords->dct->color_conversion->readwrite
+
+    compress40.c
+        - Compresses a given PPM image into a binary file
+        - Decompresses a given compressed binary file into a PPM
+    
+    readwrite.c
+        - Reads in a PPM image from a file, trimming it if necessary
+        - Writes a PPM image to standard output
+        - Reads in compressed image file
+        - Writes a compressed binary image to standard output
+        
+    color_conversion.c
+        - Converts each pixel in Pnm_ppm from RGB to component video, 
+          storing them in a UArray2
+        - Converts array with component video pixels to RGB pixels stored 
+          in a Pnm_ppm
+          
+    dct.c
+        - Uses discrete cosine transform to convert each 2-by-2 block of pixels
+          from component video into DCT structs, holding values a, b, c and d. 
+        - Uses inverse of discrete cosine transform to convert from DCT structs
+          holding values a, b, c and d to component video.
+          
+    codewords.c
+        - Packs values of each DCT struct into 32-bit codewords according to
+          a specified codeword format. Stores all codewords in a 
+          Hanson Sequence
+        - Unpacks 32-bit codewords given in a Hanson Sequence into DCT structs,
+          according to a specified codeword format. 
+          
+    bitpack.c
+        - Used for packing and fetching data in signed and unsigned 64-bit ints
+          
+Time spent: 37 hours total
+    Analyzing the problems ~ 9 hours
+    Solving the problems ~ 28 hours
